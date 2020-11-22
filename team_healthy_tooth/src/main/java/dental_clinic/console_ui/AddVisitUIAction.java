@@ -23,30 +23,38 @@ class AddVisitUIAction implements UIAction {
         System.out.println("Please enter patient's id");
         long id = in.nextLong();
 
-        System.out.println("Please input tooth number");
-        int toothNumber = in.nextInt();
-
-        System.out.println("Please input comment if necessary or press enter");
-        String commentIn = in.nextLine();
-        commentIn = in.nextLine();
-        Optional<String> comment = Optional.of(commentIn);
-
-        System.out.println("Please enter tooth status");
-        printToothStatuses();
-        int variant = in.nextInt();
-        ToothStatus toothStatus = inputToothStatus(variant);
-
-        System.out.println("Please enter doctor's name");
-        String doctor = in.nextLine();
-        doctor = in.nextLine();
-
-        AddVisitRequest addVisitRequest = new AddVisitRequest(id, toothNumber, comment, toothStatus, doctor);
+        AddVisitRequest addVisitRequest = new AddVisitRequest(id,11, Optional.of("comment"),ToothStatus.HEALTHY, "doctor" );
         AddVisitResponse addVisitResponse = addVisitService.execute(addVisitRequest);
 
         if (addVisitResponse.hasErrors()){
-            addVisitResponse.getErrors().forEach(System.out::println);
-        }else{
-            System.out.println("Visit added successfully!");
+            System.out.println("Database doesn't contain patient with id ");
+        } else {
+
+            System.out.println("Please input tooth number");
+            int toothNumber = in.nextInt();
+
+            System.out.println("Please input comment if necessary or press enter");
+            String commentIn = in.nextLine();
+            commentIn = in.nextLine();
+            Optional<String> comment = Optional.of(commentIn);
+
+            System.out.println("Please enter tooth status");
+            printToothStatuses();
+            int variant = in.nextInt();
+            ToothStatus toothStatus = inputToothStatus(variant);
+
+            System.out.println("Please enter doctor's name");
+            String doctor = in.nextLine();
+            doctor = in.nextLine();
+
+            addVisitRequest = new AddVisitRequest(id, toothNumber, comment, toothStatus, doctor);
+            addVisitResponse = addVisitService.execute(addVisitRequest);
+
+            if (addVisitResponse.hasErrors()) {
+                addVisitResponse.getErrors().forEach(System.out::println);
+            } else {
+                System.out.println("Visit added successfully!");
+            }
         }
 
     }
