@@ -27,6 +27,8 @@ public class DentalClinic {
                 new FindPatientsByPersonalCodeService(patientDatabase);
         AddVisitValidator addVisitValidator = new AddVisitValidator();
         AddVisitService addVisitService = new AddVisitService(patientDatabase, addVisitValidator);
+        CheckPatientByIdValidator checkPatientByIdValidator = new CheckPatientByIdValidator();
+        CheckPatientByIdService checkPatientByIdService = new CheckPatientByIdService(patientDatabase,checkPatientByIdValidator);
         SearchPatientRequestValidator searchPatientRequestValidator =new SearchPatientRequestValidator();
         SearchPatientService searchPatientService = new SearchPatientService(patientDatabase, searchPatientRequestValidator);
 
@@ -39,7 +41,7 @@ public class DentalClinic {
         menuNumberToAction.put(4, new PrintSpecificPatientHistoryUIAction(getSpecificPatientHistoryService));
         menuNumberToAction.put(5, new SearchPatientUIAction(searchPatientService));
         menuNumberToAction.put(6, new FindPatientByPersonalCodeUIAction(findPatientsByPersonalCodeService));
-        menuNumberToAction.put(7, new AddVisitUIAction(addVisitService));
+        menuNumberToAction.put(7, new AddVisitUIAction(addVisitService, checkPatientByIdService));
         menuNumberToAction.put(0, new ExitUIAction());
     }
 
