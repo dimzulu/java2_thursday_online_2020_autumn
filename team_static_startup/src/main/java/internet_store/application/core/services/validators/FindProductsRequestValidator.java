@@ -25,19 +25,24 @@ public class FindProductsRequestValidator {
             errors.add(new CoreError("Name", "Must not be empty!"));
             errors.add(new CoreError("Description", "Must not be empty!"));
         } else if (ordering != null) {
-            if (isEmpty(ordering.getOrderBy()) || isEmpty(ordering.getOrderDirection())) {
-                errors.add(new CoreError("Ordering Fields", "Both must be empty or filled!"));
-            } else if (inCorrectOrderingNames(ordering)) {
-                errors.add(new CoreError("Ordering by", "Must be Name or Description."));
-            } else if (inCorrectOrderingDirection(ordering)) {
-                errors.add(new CoreError("Direction", "Must be Ascending or Descending."));
-            }
+            orderingValidation(ordering, errors);
         } else if (request.getPageNumber() == null || request.getPageSize() == null) {
             if (request.getPageNumber() != null || request.getPageSize() != null) {
                 errors.add(new CoreError("Paging Fields", "Both must be empty or filled!"));
             }
         } else if (request.getPageNumber() <= 0 || request.getPageSize() <= 0) {
             errors.add(new CoreError("Paging Fields", "Both must be grater than 0."));
+        }
+        return errors;
+    }
+
+    private List<CoreError> orderingValidation(Ordering ordering, List<CoreError> errors) {
+        if (isEmpty(ordering.getOrderBy()) || isEmpty(ordering.getOrderDirection())) {
+            errors.add(new CoreError("Ordering Fields", "Both must be empty or filled!"));
+        } else if (inCorrectOrderingNames(ordering)) {
+            errors.add(new CoreError("Ordering by", "Must be Name or Description."));
+        } else if (inCorrectOrderingDirection(ordering)) {
+            errors.add(new CoreError("Direction", "Must be Ascending or Descending."));
         }
         return errors;
     }
