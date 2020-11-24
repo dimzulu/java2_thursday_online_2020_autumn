@@ -27,6 +27,13 @@ public class FindProductsRequest {
         this.pageSize = pageSize;
     }
 
+    public FindProductsRequest(String name, String description, Integer pageNumber, Integer pageSize) {
+        this.name = name;
+        this.description = description;
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+    }
+
     public String getName() {
         return name;
     }
