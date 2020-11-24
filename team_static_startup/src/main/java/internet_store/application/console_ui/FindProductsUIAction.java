@@ -28,8 +28,13 @@ public class FindProductsUIAction implements UIAction {
         System.out.print("Enter ordering 'Ascending' or by 'Descending' ");
         String orderingDirection = scanner.nextLine();
 
+        System.out.print("Enter ordering. By 'Name' or by 'Description' ");
+        Integer pageNumber = scanner.nextInt();
+        System.out.print("Enter ordering 'Ascending' or by 'Descending' ");
+        Integer pageSize = scanner.nextInt();
+
         Ordering ordering = new Ordering(orderingType, orderingDirection);
-        FindProductsRequest request = new FindProductsRequest(name, description, ordering);
+        FindProductsRequest request = new FindProductsRequest(name, description, ordering, pageNumber, pageSize);
         FindProductsResponse response = findProductsService.execute(request);
 
         if (response.hasErrors()) {
