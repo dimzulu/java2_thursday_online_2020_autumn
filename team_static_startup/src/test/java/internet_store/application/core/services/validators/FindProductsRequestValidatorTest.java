@@ -94,5 +94,38 @@ public class FindProductsRequestValidatorTest {
         assertEquals("Must be Ascending or Descending.", errors.get(0).getMessage());
     }
 
+    @Test
+    public void shouldReturnNoErrorsPagingFieldsFilled() {
+        FindProductsRequest request = new FindProductsRequest("ProductName"
+                , "ProductDescription", 10, 10);
+        List<CoreError> errors = validator.validate(request);
+        assertEquals(0, errors.size());
+    }
+
+    @Test
+    public void shouldReturnErrorIfOneFieldInPagingIsNull() {
+        FindProductsRequest request = new FindProductsRequest("ProductName"
+                , "ProductDescription", 10, null);
+        List<CoreError> errors = validator.validate(request);
+        assertEquals(1, errors.size());
+        assertEquals("Paging Fields", errors.get(0).getField());
+        assertEquals("Both must be empty or filled!", errors.get(0).getMessage());
+
+    }
+
+    @Test
+    public void shouldReturnErrorIfOneFieldInPagingIsZero() {
+        FindProductsRequest request = new FindProductsRequest("ProductName"
+                , "ProductDescription", 10, 0);
+        List<CoreError> errors = validator.validate(request);
+        assertEquals(1, errors.size());
+        assertEquals("Paging Fields", errors.get(0).getField());
+        assertEquals("Both must be grater than 0.", errors.get(0).getMessage());
+
+    }
+
+
+
+
 
 }

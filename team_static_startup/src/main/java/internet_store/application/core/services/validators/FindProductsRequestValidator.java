@@ -32,6 +32,12 @@ public class FindProductsRequestValidator {
             } else if (inCorrectOrderingDirection(ordering)) {
                 errors.add(new CoreError("Direction", "Must be Ascending or Descending."));
             }
+        } else if (request.getPageNumber() == null || request.getPageSize() == null) {
+            if (request.getPageNumber() != null || request.getPageSize() != null) {
+                errors.add(new CoreError("Paging Fields", "Both must be empty or filled!"));
+            }
+        } else if (request.getPageNumber() <= 0 || request.getPageSize() <= 0) {
+            errors.add(new CoreError("Paging Fields", "Both must be grater than 0."));
         }
         return errors;
     }
