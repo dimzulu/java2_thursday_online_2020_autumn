@@ -2,6 +2,7 @@ package internet_store.application.core.services.validators;
 
 import internet_store.application.core.requests.FindProductsRequest;
 import internet_store.application.core.requests.Ordering;
+import internet_store.application.core.requests.Paging;
 import internet_store.application.core.responses.CoreError;
 
 import java.util.ArrayList;
@@ -20,20 +21,25 @@ public class FindProductsRequestValidator {
 
     private List<CoreError> validateSearchFields(FindProductsRequest request) {
         Ordering ordering = request.getOrdering();
+        Paging paging = request.getPaging();
         List<CoreError> errors = new ArrayList<>();
         if (isEmpty(request.getName()) && isEmpty(request.getDescription())) {
             errors.add(new CoreError("Name", "Must not be empty!"));
             errors.add(new CoreError("Description", "Must not be empty!"));
         } else if (ordering != null) {
             orderingValidation(ordering, errors);
-        } else if (request.getPageNumber() == null || request.getPageSize() == null) {
-            if (request.getPageNumber() != null || request.getPageSize() != null) {
-                errors.add(new CoreError("Paging Fields", "Both must be empty or filled!"));
-            }
-        } else if (request.getPageNumber() <= 0 || request.getPageSize() <= 0) {
-            errors.add(new CoreError("Paging Fields", "Both must be grater than 0."));
+        } else if (paging != null) {
+            pagingValidation(paging, errors);
         }
         return errors;
+    }
+
+    private void pagingValidation(Paging paging, List<CoreError> errors) {
+        if (paging.getPageNumber() == null || paging.getPageSize() == null) {
+            errors.add(new CoreError("Paging Fields", "Both must be empty or filled!"));
+        } else if (paging.getPageNumber() <= 0 || paging.getPageSize() <= 0) {
+            errors.add(new CoreError("Paging Fields", "Both must be grater than 0."));
+        }
     }
 
     private List<CoreError> orderingValidation(Ordering ordering, List<CoreError> errors) {

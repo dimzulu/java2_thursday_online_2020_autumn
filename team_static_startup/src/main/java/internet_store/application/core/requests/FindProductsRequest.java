@@ -5,8 +5,7 @@ public class FindProductsRequest {
     private final String name;
     private final String description;
     private Ordering ordering;
-    private Integer pageNumber;
-    private Integer pageSize;
+    private Paging paging;
 
     public FindProductsRequest(String name, String description) {
         this.name = name;
@@ -19,19 +18,17 @@ public class FindProductsRequest {
         this.ordering = ordering;
     }
 
-    public FindProductsRequest(String name, String description, Ordering ordering, Integer pageNumber, Integer pageSize) {
+    public FindProductsRequest(String name, String description, Ordering ordering, Paging paging) {
         this.name = name;
         this.description = description;
         this.ordering = ordering;
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
+        this.paging = paging;
     }
 
-    public FindProductsRequest(String name, String description, Integer pageNumber, Integer pageSize) {
+    public FindProductsRequest(String name, String description, Paging paging) {
         this.name = name;
         this.description = description;
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
+        this.paging = paging;
     }
 
     public String getName() {
@@ -46,12 +43,8 @@ public class FindProductsRequest {
         return ordering;
     }
 
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
+    public Paging getPaging() {
+        return paging;
     }
 
     public boolean isNameProvided() {

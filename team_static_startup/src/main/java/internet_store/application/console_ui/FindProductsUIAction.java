@@ -2,6 +2,7 @@ package internet_store.application.console_ui;
 
 import internet_store.application.core.requests.FindProductsRequest;
 import internet_store.application.core.requests.Ordering;
+import internet_store.application.core.requests.Paging;
 import internet_store.application.core.responses.FindProductsResponse;
 import internet_store.application.core.services.FindProductsService;
 
@@ -34,7 +35,8 @@ public class FindProductsUIAction implements UIAction {
         Integer pageSize = scanner.nextInt();
 
         Ordering ordering = new Ordering(orderingType, orderingDirection);
-        FindProductsRequest request = new FindProductsRequest(name, description, ordering, pageNumber, pageSize);
+        Paging paging = new Paging(pageNumber, pageSize);
+        FindProductsRequest request = new FindProductsRequest(name, description, ordering, paging);
         FindProductsResponse response = findProductsService.execute(request);
 
         if (response.hasErrors()) {

@@ -2,18 +2,20 @@ package internet_store.application.core.services.validators;
 
 import internet_store.application.core.requests.FindProductsRequest;
 import internet_store.application.core.requests.Ordering;
+import internet_store.application.core.requests.Paging;
 import internet_store.application.core.responses.CoreError;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class FindProductsRequestValidatorTest {
 
     private FindProductsRequestValidator validator;
     private Ordering ordering;
+    private Paging paging;
 
     @Before
     public void setUp() {
@@ -96,16 +98,18 @@ public class FindProductsRequestValidatorTest {
 
     @Test
     public void shouldReturnNoErrorsPagingFieldsFilled() {
+        paging = new Paging(10, 10);
         FindProductsRequest request = new FindProductsRequest("ProductName"
-                , "ProductDescription", 10, 10);
+                , "ProductDescription", paging);
         List<CoreError> errors = validator.validate(request);
         assertEquals(0, errors.size());
     }
 
     @Test
     public void shouldReturnErrorIfOneFieldInPagingIsNull() {
+        paging = new Paging(10, null);
         FindProductsRequest request = new FindProductsRequest("ProductName"
-                , "ProductDescription", 10, null);
+                , "ProductDescription", paging);
         List<CoreError> errors = validator.validate(request);
         assertEquals(1, errors.size());
         assertEquals("Paging Fields", errors.get(0).getField());
@@ -115,8 +119,9 @@ public class FindProductsRequestValidatorTest {
 
     @Test
     public void shouldReturnErrorIfOneFieldInPagingIsZero() {
+        paging = new Paging(10, 0);
         FindProductsRequest request = new FindProductsRequest("ProductName"
-                , "ProductDescription", 10, 0);
+                , "ProductDescription", paging);
         List<CoreError> errors = validator.validate(request);
         assertEquals(1, errors.size());
         assertEquals("Paging Fields", errors.get(0).getField());
